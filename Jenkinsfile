@@ -50,14 +50,14 @@ podTemplate(
     def IMAGE_VERSION
     def IMAGE_POSFIX = ""
     def KUBE_NAMESPACE
-    def IMAGE_NAME = "questcode-backend-user"
-    def APP_NAME = "questcode-backend-user"
+    def IMAGE_NAME = "questcode-frontend"
+    def APP_NAME = "questcode-frontend"
     def ENVIRONMENT
-    def GIT_REPOS_URL = "https://github.com/wfsiqueira/questcode-backend-user.git"
+    def GIT_REPOS_URL = "https://github.com/wfsiqueira/questcode-frontend.git"
     def GIT_BRANCH 
-    def HELM_CHART_NAME = "questcode/backend-user"
+    def HELM_CHART_NAME = "questcode/questcode-frontend"
     def HELM_DEPLOY_NAME
-    def CHARTMUSEUM_URL = "http://helm-chartmuseum:8080"
+    def CHARTMUSEUM_URL = "http://questcode-repo-chartmuseum:8080"
     def INGRESS_HOST = "questcode.org"
 
     // Start Pipeline
@@ -94,7 +94,7 @@ podTemplate(
                 echo 'Iniciando empacotamento com Docker'
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
                     sh "docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}"
-                    sh "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_VERSION} ."
+                    sh "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_VERSION} . --build-arg NPM_ENV='${ENVIRONMENT}'"
                     sh "docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_VERSION}"
                 }
 
