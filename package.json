@@ -1,6 +1,6 @@
 {
   "name": "questcode",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "description": "QuestCode: for amazons and warriors",
   "main": "server.js",
   "scripts": {
